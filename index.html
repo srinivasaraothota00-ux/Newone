@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#ffd6e8;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+}
+.page{
+  display:none;
+  width:360px;
+  background:#ffeaf3;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  position:relative;
+}
+.page.active{display:block;}
+h1{color:#c9184a;}
+button{
+  background:#ff4d6d;
+  border:none;
+  color:white;
+  padding:12px 25px;
+  border-radius:25px;
+  cursor:pointer;
+  margin:10px;
+}
+#no{background:#4dabf7;position:relative;}
+.gif{width:140px;border-radius:15px;margin-bottom:15px;}
+.card{
+  background:#ffdce5;
+  padding:15px;
+  border-radius:15px;
+  margin:10px 0;
+  cursor:pointer;
+}
+.smallgif{width:80px;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.photo{
+  background:#fff;
+  padding:5px;
+  border-radius:10px;
+}
+.photo img{
+  width:100%;
+  border-radius:8px;
+}
+.caption{
+  font-size:12px;
+  margin-top:5px;
+}
+
+/* FINAL CIRCLE */
+#finalCircle{
+  position:fixed;
+  width:20px;
+  height:20px;
+  background:#ff2d55;
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  transition:transform 1.2s ease-in-out;
+  z-index:5;
+}
+
+/* FINAL MESSAGE */
+#finalMessage{
+  position:fixed;
+  inset:0;
+  background:#ffb3c7;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:30px;
+  z-index:6;
+}
+#finalMessage h1{
+  font-size:26px;
+}
+#finalMessage p{
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* FINALLY BUTTON */
+#finallyBtn{
+  display:none;
+  background:red;
+  color:white;
+  padding:12px 25px;
+  border-radius:25px;
+  cursor:pointer;
+  margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<!-- ASK PAGE -->
+<div class="page active" id="ask">
+  <img id="askGif" class="gif" src="gif1.gif">
+  <h1 id="askText">Will you be mine 🥺💗?</h1>
+  <button id="yes">YES</button>
+  <button id="no">NO</button>
+</div>
+
+<!-- GIFTS PAGE -->
+<div class="page" id="gifts">
+  <h1>Something for You 💕</h1>
+
+  <div class="card" onclick="openGift('quiz1')">
+    <img src="gift1.gif" class="smallgif"><p>Gift 1 🎁</p>
+  </div>
+
+  <div class="card" onclick="openGift('letter')">
+    <img src="gift2.gif" class="smallgif"><p>Gift 2 💌</p>
+  </div>
+
+  <div class="card" onclick="openGift('memories')">
+    <img src="gift3.gif" class="smallgif"><p>Gift 3 ❤️</p>
+  </div>
+
+  <button id="finallyBtn" onclick="finale()">FINALLY ❤️</button>
+</div>
+
+<!-- QUIZ 1 -->
+<div class="page" id="quiz1">
+  <h1>Quiz for you 😘</h1>
+  <p>Who is the boss in this relationship?</p>
+  <div class="card" onclick="go('quiz2')">Obviously You</div>
+  <div class="card" onclick="wrong()">Me</div>
+  <div class="card" onclick="wrong()">My Mom</div>
+  <button onclick="go('gifts')">← BACK</button>
+</div>
+
+<!-- QUIZ 2 -->
+<div class="page" id="quiz2">
+  <h1>Quiz for you 😘</h1>
+  <p>Where do I plan to spend my life?</p>
+  <div class="card" onclick="wrong()">Paris</div>
+  <div class="card" onclick="go('result')">In Your Heart ❤️</div>
+  <div class="card" onclick="wrong()">On Mars</div>
+  <button onclick="go('quiz1')">← BACK</button>
+</div>
+
+<!-- QUIZ RESULT -->
+<div class="page" id="result">
+  <h1>You Passed 😭❤️</h1>
+  <p>You really love me 🥺💖</p>
+  <button onclick="go('gifts')">← BACK</button>
+</div>
+
+<!-- LETTER -->
+<div class="page" id="letter">
+  <h1>A Letter For You 🥺</h1>
+  <div class="card" style="background:#fff8dc;">
+    <p style="font-size:14px;line-height:1.6;">
+      My Baby,<br><br>
+      Thank you for being my person.
+      You are my home, my peace, my everything.
+      I love you more than words can ever say.<br><br>
+      Forever yours ❤️
+    </p>
+  </div>
+  <button onclick="go('gifts')">← BACK</button>
+</div>
+
+<!-- MEMORIES -->
+<div class="page" id="memories">
+  <h1>Only You In My Heart ❤️</h1>
+  <div class="grid">
+    <div class="photo">
+      <img src="mem1.jpg">
+      <div class="caption">The Day You Became My World</div>
+    </div>
+    <div class="photo">
+      <img src="mem2.jpg">
+      <div class="caption">My Favorite Smile</div>
+    </div>
+    <div class="photo">
+      <img src="mem3.jpg">
+      <div class="caption">Forever Starts With You</div>
+    </div>
+  </div>
+  <button onclick="go('gifts')">← BACK</button>
+</div>
+
+<!-- FINAL ANIMATION -->
+<div id="finalCircle"></div>
+
+<div id="finalMessage">
+  <div>
+    <h1>You are my forever 🧿❤️!</h1>
+    <p>
+      I love you more than words can say ❤️<br><br>
+      No matter where life takes us,<br>
+      my heart will always choose you.<br><br>
+      Thank you for being my peace,<br>
+      my smile, my love.<br><br>
+      This Valentine’s Day and every day after,<br>
+      I’m grateful to call you mine 💕
+    </p>
+  </div>
+</div>
+
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const askText=document.getElementById("askText");
+const askGif=document.getElementById("askGif");
+const finallyBtn = document.getElementById("finallyBtn");
+
+let noCount=0;
+const stages=[
+ {t:"Heyy… don’t say no 🥺",g:"gif2.gif"},
+ {t:"That hurts 😢 think again",g:"gif3.gif"},
+ {t:"Final warning 😼🔫",g:"gif4.gif"}
+];
+
+noBtn.onclick=()=>{
+ noBtn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+ if(noCount<stages.length){
+   askText.innerText=stages[noCount].t;
+   askGif.src=stages[noCount].g;
+   noCount++;
+ }
+};
+
+yesBtn.onclick=()=>{
+ askGif.src="gif5.gif";
+ askText.innerText="YAYYY ❤️";
+ setTimeout(()=>go('gifts'),1200);
+};
+
+let openedGifts = 0;
+function openGift(id){
+  go(id);
+  openedGifts++;
+  if(openedGifts >= 3){
+    finallyBtn.style.display = 'inline-block';
+  }
+}
+
+function go(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+
+function wrong(){alert("Wrong 😤 Try again!");}
+
+function finale(){
+ document.getElementById("finalCircle").style.transform="translate(-50%,-50%) scale(80)";
+ setTimeout(()=>{
+   document.getElementById("finalMessage").style.display="flex";
+ },1200);
+}
+</script>
+
+</body>
+</html>
